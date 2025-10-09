@@ -35,6 +35,7 @@ pub mod evt_permanent_lock_position_event;
 pub mod evt_remove_liquidity_event;
 pub mod evt_set_pool_status_event;
 pub mod evt_swap_event;
+pub mod evt_swap_event_2;
 pub mod evt_update_reward_duration_event;
 pub mod evt_update_reward_funder_event;
 pub mod evt_withdraw_ineligible_reward_event;
@@ -50,6 +51,7 @@ pub mod remove_all_liquidity;
 pub mod remove_liquidity;
 pub mod set_pool_status;
 pub mod swap;
+pub mod swap2;
 pub mod update_reward_duration;
 pub mod update_reward_funder;
 pub mod withdraw_ineligible_reward;
@@ -92,6 +94,7 @@ pub enum MeteoraDammV2Instruction {
     RemoveLiquidity(remove_liquidity::RemoveLiquidity),
     SetPoolStatus(set_pool_status::SetPoolStatus),
     Swap(swap::Swap),
+    Swap2(swap2::Swap2),
     UpdateRewardDuration(update_reward_duration::UpdateRewardDuration),
     UpdateRewardFunder(update_reward_funder::UpdateRewardFunder),
     WithdrawIneligibleReward(withdraw_ineligible_reward::WithdrawIneligibleReward),
@@ -120,6 +123,7 @@ pub enum MeteoraDammV2Instruction {
     EvtRemoveLiquidityEvent(evt_remove_liquidity_event::EvtRemoveLiquidityEvent),
     EvtSetPoolStatusEvent(evt_set_pool_status_event::EvtSetPoolStatusEvent),
     EvtSwapEvent(evt_swap_event::EvtSwapEvent),
+    EvtSwapEvent2(evt_swap_event_2::EvtSwapEvent2),
     EvtUpdateRewardDurationEvent(evt_update_reward_duration_event::EvtUpdateRewardDurationEvent),
     EvtUpdateRewardFunderEvent(evt_update_reward_funder_event::EvtUpdateRewardFunderEvent),
     EvtWithdrawIneligibleRewardEvent(
@@ -163,6 +167,7 @@ impl carbon_core::instruction::InstructionDecoder<'_> for MeteoraDammV2Decoder {
             MeteoraDammV2Instruction::RemoveLiquidity => remove_liquidity::RemoveLiquidity,
             MeteoraDammV2Instruction::SetPoolStatus => set_pool_status::SetPoolStatus,
             MeteoraDammV2Instruction::Swap => swap::Swap,
+            MeteoraDammV2Instruction::Swap2 => swap2::Swap2,
             MeteoraDammV2Instruction::UpdateRewardDuration => update_reward_duration::UpdateRewardDuration,
             MeteoraDammV2Instruction::UpdateRewardFunder => update_reward_funder::UpdateRewardFunder,
             MeteoraDammV2Instruction::WithdrawIneligibleReward => withdraw_ineligible_reward::WithdrawIneligibleReward,
@@ -187,6 +192,7 @@ impl carbon_core::instruction::InstructionDecoder<'_> for MeteoraDammV2Decoder {
             MeteoraDammV2Instruction::EvtRemoveLiquidityEvent => evt_remove_liquidity_event::EvtRemoveLiquidityEvent,
             MeteoraDammV2Instruction::EvtSetPoolStatusEvent => evt_set_pool_status_event::EvtSetPoolStatusEvent,
             MeteoraDammV2Instruction::EvtSwapEvent => evt_swap_event::EvtSwapEvent,
+            MeteoraDammV2Instruction::EvtSwapEvent2 => evt_swap_event_2::EvtSwapEvent2,
             MeteoraDammV2Instruction::EvtUpdateRewardDurationEvent => evt_update_reward_duration_event::EvtUpdateRewardDurationEvent,
             MeteoraDammV2Instruction::EvtUpdateRewardFunderEvent => evt_update_reward_funder_event::EvtUpdateRewardFunderEvent,
             MeteoraDammV2Instruction::EvtWithdrawIneligibleRewardEvent => evt_withdraw_ineligible_reward_event::EvtWithdrawIneligibleRewardEvent,
