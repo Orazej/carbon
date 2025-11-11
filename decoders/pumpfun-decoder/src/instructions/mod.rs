@@ -21,6 +21,7 @@ pub mod collect_creator_fee_event;
 pub mod complete_event;
 pub mod complete_pump_amm_migration_event;
 pub mod create;
+pub mod create_v2;
 pub mod create_event;
 pub mod extend_account;
 pub mod extend_account_event;
@@ -35,8 +36,11 @@ pub mod set_metaplex_creator;
 pub mod set_metaplex_creator_event;
 pub mod set_params;
 pub mod set_params_event;
+pub mod set_reserved_fee_recipient;
 pub mod sync_user_volume_accumulator;
 pub mod sync_user_volume_accumulator_event;
+pub mod toggle_create_v2;
+pub mod toggle_mayhem_mode;
 pub mod trade_event;
 pub mod update_global_authority;
 pub mod update_global_authority_event;
@@ -60,6 +64,7 @@ pub enum PumpfunInstruction {
     CloseUserVolumeAccumulator(close_user_volume_accumulator::CloseUserVolumeAccumulator),
     CollectCreatorFee(collect_creator_fee::CollectCreatorFee),
     Create(create::Create),
+    CreateV2(create_v2::CreateV2),
     ExtendAccount(extend_account::ExtendAccount),
     InitUserVolumeAccumulator(init_user_volume_accumulator::InitUserVolumeAccumulator),
     Initialize(initialize::Initialize),
@@ -68,7 +73,10 @@ pub enum PumpfunInstruction {
     SetCreator(set_creator::SetCreator),
     SetMetaplexCreator(set_metaplex_creator::SetMetaplexCreator),
     SetParams(set_params::SetParams),
+    SetReservedFeeRecipient(set_reserved_fee_recipient::SetReservedFeeRecipient),
     SyncUserVolumeAccumulator(sync_user_volume_accumulator::SyncUserVolumeAccumulator),
+    ToggleCreateV2(toggle_create_v2::ToggleCreateV2),
+    ToggleMayhemMode(toggle_mayhem_mode::ToggleMayhemMode),
     UpdateGlobalAuthority(update_global_authority::UpdateGlobalAuthority),
     AdminSetCreatorEvent(admin_set_creator_event::AdminSetCreatorEvent),
     AdminSetIdlAuthorityEvent(admin_set_idl_authority_event::AdminSetIdlAuthorityEvent),
@@ -130,6 +138,7 @@ impl carbon_core::instruction::InstructionDecoder<'_> for PumpfunDecoder {
             PumpfunInstruction::CloseUserVolumeAccumulator => close_user_volume_accumulator::CloseUserVolumeAccumulator,
             PumpfunInstruction::CollectCreatorFee => collect_creator_fee::CollectCreatorFee,
             PumpfunInstruction::Create => create::Create,
+            PumpfunInstruction::CreateV2 => create_v2::CreateV2,
             PumpfunInstruction::ExtendAccount => extend_account::ExtendAccount,
             PumpfunInstruction::InitUserVolumeAccumulator => init_user_volume_accumulator::InitUserVolumeAccumulator,
             PumpfunInstruction::Initialize => initialize::Initialize,
@@ -138,7 +147,10 @@ impl carbon_core::instruction::InstructionDecoder<'_> for PumpfunDecoder {
             PumpfunInstruction::SetCreator => set_creator::SetCreator,
             PumpfunInstruction::SetMetaplexCreator => set_metaplex_creator::SetMetaplexCreator,
             PumpfunInstruction::SetParams => set_params::SetParams,
+            PumpfunInstruction::SetReservedFeeRecipient => set_reserved_fee_recipient::SetReservedFeeRecipient,
             PumpfunInstruction::SyncUserVolumeAccumulator => sync_user_volume_accumulator::SyncUserVolumeAccumulator,
+            PumpfunInstruction::ToggleCreateV2 => toggle_create_v2::ToggleCreateV2,
+            PumpfunInstruction::ToggleMayhemMode => toggle_mayhem_mode::ToggleMayhemMode,
             PumpfunInstruction::UpdateGlobalAuthority => update_global_authority::UpdateGlobalAuthority,
             PumpfunInstruction::AdminSetCreatorEvent => admin_set_creator_event::AdminSetCreatorEvent,
             PumpfunInstruction::AdminSetIdlAuthorityEvent => admin_set_idl_authority_event::AdminSetIdlAuthorityEvent,
