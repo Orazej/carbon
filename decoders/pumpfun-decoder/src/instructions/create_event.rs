@@ -56,7 +56,10 @@ impl CarbonDeserialize for CreateEvent {
     const DISCRIMINATOR: &'static [u8] = &CREATE_EVENT_DISCRIMINATOR;
 
     fn deserialize(data: &[u8]) -> Option<Self> {
-        let (_, payload) = extract_discriminator(Self::DISCRIMINATOR.len(), data)?;
+        let (disc, payload) = extract_discriminator(Self::DISCRIMINATOR.len(), data)?;
+        if disc != Self::DISCRIMINATOR {
+            return None;
+        }
         let mut cursor = payload;
         Self::deserialize_reader(&mut cursor).ok()
     }
