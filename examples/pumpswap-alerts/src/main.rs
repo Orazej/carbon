@@ -120,6 +120,11 @@ impl Processor for PumpSwapInstructionProcessor {
             PumpSwapInstruction::Buy(buy) => {
                 log::info!("Buy: signature: {signature}, buy: {buy:?}");
             }
+            PumpSwapInstruction::BuyExactQuoteIn(buy_exact_quote_in) => {
+                log::info!(
+                    "BuyExactQuoteIn: signature: {signature}, buy_exact_quote_in: {buy_exact_quote_in:?}"
+                );
+            }
             PumpSwapInstruction::Sell(sell) => {
                 log::info!("Sell: signature: {signature}, sell: {sell:?}");
             }
