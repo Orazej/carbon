@@ -12,6 +12,7 @@ pub mod admin_set_idl_authority_event;
 pub mod admin_update_token_incentives;
 pub mod admin_update_token_incentives_event;
 pub mod buy;
+pub mod buy_exact_sol_in;
 pub mod claim_token_incentives;
 pub mod claim_token_incentives_event;
 pub mod close_user_volume_accumulator;
@@ -60,6 +61,7 @@ pub enum PumpfunInstruction {
     AdminSetIdlAuthority(admin_set_idl_authority::AdminSetIdlAuthority),
     AdminUpdateTokenIncentives(admin_update_token_incentives::AdminUpdateTokenIncentives),
     Buy(buy::Buy),
+    BuyExactSolIn(buy_exact_sol_in::BuyExactSolIn),
     ClaimTokenIncentives(claim_token_incentives::ClaimTokenIncentives),
     CloseUserVolumeAccumulator(close_user_volume_accumulator::CloseUserVolumeAccumulator),
     CollectCreatorFee(collect_creator_fee::CollectCreatorFee),
@@ -134,6 +136,7 @@ impl carbon_core::instruction::InstructionDecoder<'_> for PumpfunDecoder {
             PumpfunInstruction::AdminSetIdlAuthority => admin_set_idl_authority::AdminSetIdlAuthority,
             PumpfunInstruction::AdminUpdateTokenIncentives => admin_update_token_incentives::AdminUpdateTokenIncentives,
             PumpfunInstruction::Buy => buy::Buy,
+            PumpfunInstruction::BuyExactSolIn => buy_exact_sol_in::BuyExactSolIn,
             PumpfunInstruction::ClaimTokenIncentives => claim_token_incentives::ClaimTokenIncentives,
             PumpfunInstruction::CloseUserVolumeAccumulator => close_user_volume_accumulator::CloseUserVolumeAccumulator,
             PumpfunInstruction::CollectCreatorFee => collect_creator_fee::CollectCreatorFee,
@@ -304,6 +307,132 @@ mod tests {
             buy::Buy::arrange_accounts(&instruction.accounts).expect("aranage accounts");
 
         // Assert
+        assert_eq!(decoded.data, expected_ix);
+        assert_eq!(decoded.accounts, expected_accounts);
+        assert_eq!(decoded.program_id, PROGRAM_ID);
+        assert_eq!(decoded_arranged_accounts, expected_arranged_accounts);
+    }
+
+    #[test]
+    fn test_decode_buy_exact_sol_in() {
+        let expected_ix = PumpfunInstruction::BuyExactSolIn(buy_exact_sol_in::BuyExactSolIn {
+            spendable_sol_in: 2_500_000_000,
+            min_tokens_out: 123_456_789,
+            track_volume: OptionBool(false),
+        });
+
+        let expected_accounts = vec![
+            AccountMeta {
+                pubkey: pubkey!("4wTV1YmiEkRvAtNtsSGPtUrqRYQMe5SKy2uB4Jjaxnjf"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("62qc2CNXwrYqQScmEdiZFFAnJR262PxWEuNQtxfafNgV"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("7uUTzNs4UFgarqY6TyRnW3ZnMFpcsw1iookL8R5KCGwA"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("CxHfPAgH6PNLnfq5n5mq4tZK1aQCsMdeygwqaUSjsceN"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("3AnftTe9GeUkp3HQJTm7tWLeVkojdFCyd33u4XEAMTpe"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("A1C8VqECGc8CSjmiEpaaNTWeJVqVM3tQXnxcaSkfngxT"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("9zR4L1w4cCvLndDYYiCBUvNfBPeZBAQWL57wQgW97Pau"),
+                is_signer: true,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("11111111111111111111111111111111"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("34D2HZjdrSfxhc4j6aduiwbN6uzXKaw73h2jjVBQfJ9p"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("Ce6TQqeHC9p8KetsN6JsjHK7UTZk7nasjjnr7XxXp9F1"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("Hq2wp8uJ9jCPsYgNHex8RtqdvMPfVGoYwjvF1ATiwn2Y"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("3cm5x9jFRrZQzZxnYkm7jYkUy5srwamyMZZTsRPZqfgD"),
+                is_signer: false,
+                is_writable: true,
+            },
+            AccountMeta {
+                pubkey: pubkey!("8Wf5TiAheLUqBrKXeYg2JtAFFMWtKdG2BSFgqUcPVwTt"),
+                is_signer: false,
+                is_writable: false,
+            },
+            AccountMeta {
+                pubkey: pubkey!("pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ"),
+                is_signer: false,
+                is_writable: false,
+            },
+        ];
+        let expected_arranged_accounts = buy_exact_sol_in::BuyExactSolInInstructionAccounts {
+            global: pubkey!("4wTV1YmiEkRvAtNtsSGPtUrqRYQMe5SKy2uB4Jjaxnjf"),
+            fee_recipient: pubkey!("62qc2CNXwrYqQScmEdiZFFAnJR262PxWEuNQtxfafNgV"),
+            mint: pubkey!("7uUTzNs4UFgarqY6TyRnW3ZnMFpcsw1iookL8R5KCGwA"),
+            bonding_curve: pubkey!("CxHfPAgH6PNLnfq5n5mq4tZK1aQCsMdeygwqaUSjsceN"),
+            associated_bonding_curve: pubkey!("3AnftTe9GeUkp3HQJTm7tWLeVkojdFCyd33u4XEAMTpe"),
+            associated_user: pubkey!("A1C8VqECGc8CSjmiEpaaNTWeJVqVM3tQXnxcaSkfngxT"),
+            user: pubkey!("9zR4L1w4cCvLndDYYiCBUvNfBPeZBAQWL57wQgW97Pau"),
+            system_program: pubkey!("11111111111111111111111111111111"),
+            token_program: pubkey!("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
+            creator_vault: pubkey!("34D2HZjdrSfxhc4j6aduiwbN6uzXKaw73h2jjVBQfJ9p"),
+            event_authority: pubkey!("Ce6TQqeHC9p8KetsN6JsjHK7UTZk7nasjjnr7XxXp9F1"),
+            program: pubkey!("6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"),
+            global_volume_accumulator: pubkey!("Hq2wp8uJ9jCPsYgNHex8RtqdvMPfVGoYwjvF1ATiwn2Y"),
+            user_volume_accumulator: pubkey!("3cm5x9jFRrZQzZxnYkm7jYkUy5srwamyMZZTsRPZqfgD"),
+            fee_config: pubkey!("8Wf5TiAheLUqBrKXeYg2JtAFFMWtKdG2BSFgqUcPVwTt"),
+            fee_program: pubkey!("pfeeUxB6jkeY1Hxd7CsFCAjcbHA9rWtchMGdZ6VojVZ"),
+        };
+
+        let decoder = PumpfunDecoder;
+        let instruction =
+            carbon_test_utils::read_instruction("tests/fixtures/buy_exact_sol_in_ix.json")
+                .expect("read fixture");
+        let decoded = decoder
+            .decode_instruction(&instruction)
+            .expect("decode instruction");
+        let decoded_arranged_accounts =
+            buy_exact_sol_in::BuyExactSolIn::arrange_accounts(&instruction.accounts)
+                .expect("arrange accounts");
+
         assert_eq!(decoded.data, expected_ix);
         assert_eq!(decoded.accounts, expected_accounts);
         assert_eq!(decoded.program_id, PROGRAM_ID);
