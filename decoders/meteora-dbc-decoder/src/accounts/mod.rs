@@ -124,6 +124,17 @@ impl AccountDecoder<'_> for DynamicBondingCurveDecoder {
                 rent_epoch: account.rent_epoch,
             });
         }
+        if let Some(decoded_account) =
+            virtual_pool::VirtualPoolLegacy::deserialize(account.data.as_slice())
+        {
+            return Some(carbon_core::account::DecodedAccount {
+                lamports: account.lamports,
+                data: DynamicBondingCurveAccount::VirtualPool(decoded_account.into()),
+                owner: account.owner,
+                executable: account.executable,
+                rent_epoch: account.rent_epoch,
+            });
+        }
 
         if let Some(decoded_account) =
             virtual_pool_metadata::VirtualPoolMetadata::deserialize(account.data.as_slice())

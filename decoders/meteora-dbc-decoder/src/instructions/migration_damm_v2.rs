@@ -33,6 +33,8 @@ pub struct MigrationDammV2InstructionAccounts {
     pub token_2022_program: solana_pubkey::Pubkey,
     pub damm_event_authority: solana_pubkey::Pubkey,
     pub system_program: solana_pubkey::Pubkey,
+    pub first_position_vesting: Option<solana_pubkey::Pubkey>,
+    pub second_position_vesting: Option<solana_pubkey::Pubkey>,
 }
 
 impl carbon_core::deserialize::ArrangeAccounts for MigrationDammV2 {
@@ -67,6 +69,8 @@ impl carbon_core::deserialize::ArrangeAccounts for MigrationDammV2 {
         let token_2022_program = next_account(&mut iter)?;
         let damm_event_authority = next_account(&mut iter)?;
         let system_program = next_account(&mut iter)?;
+        let first_position_vesting = next_account(&mut iter);
+        let second_position_vesting = next_account(&mut iter);
 
         Some(MigrationDammV2InstructionAccounts {
             virtual_pool,
@@ -94,6 +98,8 @@ impl carbon_core::deserialize::ArrangeAccounts for MigrationDammV2 {
             token_2022_program,
             damm_event_authority,
             system_program,
+            first_position_vesting,
+            second_position_vesting,
         })
     }
 }

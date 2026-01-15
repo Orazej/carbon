@@ -32,5 +32,8 @@ pub struct VirtualPool {
     pub finish_curve_timestamp: u64,
     pub creator_base_fee: u64,
     pub creator_quote_fee: u64,
-    pub padding_1: [u64; 7],
+    pub legacy_creation_fee_bits: u8,
+    pub creation_fee_bits: u8,
+    pub padding_0: [u8; 6],
+    pub padding_1: [u64; 6],
 }
